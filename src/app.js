@@ -5,38 +5,69 @@ class Mashed {
   constructor(element) {
     this.root = element;
 
-    this.fetchFlickrPhotos();
-    this.fetchWordlabWords('detest');
+      var searchButton = document.getElementById('searchBtn');
+
+      searchButton.addEventListener('click', () => {
+        var searchWord = document.getElementById('searchInput').value
+        this.fetchFlickrPhotos(searchWord)
+        this.fetchWordlabWords(searchWord)
+      });
+  }
+  
+
+  flickrImg(data) {
+    let flickr = "";
+    data.photos.photo.map((photo) => {
+      flickr += `<li class="result"><p><img src="${photo.url_m}"></p></li>`;
+    });
+
+    document.querySelector('.results ul').innerHTML = flickr;
   }
 
-  fetchFlickrPhotos() {
-    let resourceUrl =
-      'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key='
-    let flickrAPIkey = '2bfdce80f8de8d01a3c0b1e43843e961'
+  fetchFlickrPhotos(query) {
+    let resourceUrl ='https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key='
+    let flickrAPIkey = process.env.FLICKR_KEY;
 
     let flickrQueryParams =
-      '&text=space' +
-      '&extras=url_q&format=json&nojsoncallback=1'
+      '&text=' + query +
+      '&extras=url_m&format=json&nojsoncallback=1'
     let flickrUrl = resourceUrl + flickrAPIkey + flickrQueryParams
 
     fetch(flickrUrl)
       .then(res => res.json())
-      .then(res => {
-        console.log('Got response from FlickR!')
-        console.log(res)
+      .then((data) => {
+        this.flickrImg(data)
+         console.log(data)
       })
       .catch(err => console.error(err))
   }
 
+  wordLabWords(data) {
+    let wordLab = "";
+    data.verb.syn.map((n) => {
+      wordLab += `<li><a>${n}</a></li>`;
+    });
+
+    document.querySelector('.wordList').innerHTML = wordLab;
+
+    document.querySelectorAll('.wordList li a').forEach((element) => {
+      element.addEventListener('click', (event) => {
+        this.fetchFlickrPhotos(event.target.text);
+        this.fetchWordlabWords(event.target.text);
+        
+      })
+    });
+  }
+
   fetchWordlabWords(query) {
-    let wordLabAPIkey = '9d30c37acd6d49022f294eeff979f914'
+    let wordLabAPIkey = process.env.WORDLAB_KEY;
     let wordLabUrl = `http://words.bighugelabs.com/api/2/${wordLabAPIkey}/${query}/json`
 
     fetch(wordLabUrl)
       .then(res => res.json())
-      .then(res => {
-        console.log('Got response from BigHugeLabs!')
-        console.log(res)
+      .then(data => {
+        this.wordLabWords(data)
+        console.log(data.verb.syn)
       })
       .catch(err => console.error(err))
   }

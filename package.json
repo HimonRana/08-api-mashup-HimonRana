@@ -2,7 +2,7 @@
   "name": "api-mashup",
   "version": "1.0.0",
   "main": "./src/app.js",
-  "license": "Nope",
+  "license": "ICS",
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,6 +14,7 @@
     "babel-preset-env": "^1.6.1",
     "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.9",
+    "dotenv-webpack": "^1.5.4",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.42.0",
     "eslint-plugin-import": "^2.8.0",

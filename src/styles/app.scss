@@ -9,7 +9,7 @@
 @import 'utilities/layout';
 
 body {
-  background-color: #fff;
+  background-color: rgb(32, 32, 32);
   color: #fff;
   font-family: 'Avenir Next', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.5em;
@@ -55,6 +55,7 @@ aside {
 
       &:hover {
         background-color: slategray;
+        cursor: pointer;
         a {
           color: #fff;
           text-decoration: underline;
