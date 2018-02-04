@@ -6,3 +6,5 @@ Repo for API mashup assignment
 1. `yarn`
 2. `yarn start`
 3. Tab should open for http://localhost:8080
+
+URL: http://himonrana.chas.academy/mashed-api/
